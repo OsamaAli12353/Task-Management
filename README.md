@@ -39,42 +39,85 @@ cd frontend
 npm install
 npm startThe frontend application will start on http://localhost:3000
 
-📡 API Endpoints
-Authentication
-Method      Endpoint          Description                   AuthRequired
-POST        /api/register      Register new user                No
-POST        /api/login         Login and receive JWT token      No
+## 📡 API Endpoints
 
+### Authentication
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | `/api/register` | Register new user | No |
+| POST | `/api/login` | Login and receive JWT token | No |
+
+**Register/Login Request Body:**
+```json
 {
   "name": "John Doe",
   "email": "john@example.com",
   "password": "password123"
 }
-Tasks
-Method          Endpoint                  Description                            AuthRequired
-GET              /api/tasks                Get all tasks for logged-in user        Yes
-POST             /api/tasks                Create a new task                       Yes
-PATCH            /api/tasks/{id}/status    Update task status                       Yes
-DELETE           /api/tasks/{id}            Delete a task                           Yes
+```
 
-Create Task Request Body:
+**Login Response:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "type": "Bearer",
+  "email": "john@example.com",
+  "name": "John Doe"
+}
+```
+
+---
+
+### Tasks
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET | `/api/tasks` | Get all tasks for logged-in user | ✅ Yes |
+| POST | `/api/tasks` | Create a new task | ✅ Yes |
+| PATCH | `/api/tasks/{id}/status` | Update task status | ✅ Yes |
+| DELETE | `/api/tasks/{id}` | Delete a task | ✅ Yes |
+
+**Create Task Request Body:**
+```json
 {
   "title": "Complete assessment",
   "description": "Finish the technical assessment",
   "status": "PENDING"
 }
-Update Status Request Body:
+```
+
+**Update Status Request Body:**
+```json
 {
   "status": "IN_PROGRESS"
 }
 ```
 
----
-{
-  "status": "IN_PROGRESS"
-}
+**Get Tasks Response:**
+```json
+[
+  {
+    "id": 1,
+    "title": "Complete assessment",
+    "description": "Finish the technical assessment",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-12-28T10:30:00"
+  },
+  {
+    "id": 2,
+    "title": "Review documentation",
+    "description": "",
+    "status": "PENDING",
+    "createdAt": "2025-12-28T11:00:00"
+  }
+]
 ```
 
+**Task Status Values:**
+- `PENDING` - Task is created but not started
+- `IN_PROGRESS` - Task is currently being worked on
+- `DONE` - Task is completed
 ---
 
 ## 🔐 Authentication
