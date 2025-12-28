@@ -30,35 +30,47 @@ Node.js 16+
 Maven
 
 Backend Setup
-bashcd backend
+cd backend
 ./mvnw clean install
 ./mvnw spring-boot:run
 The backend server will start on http://localhost:8080
 Frontend Setup
-bashcd frontend
+cd frontend
 npm install
-npm start
-The frontend application will start on http://localhost:3000
+npm startThe frontend application will start on http://localhost:3000
 
 📡 API Endpoints
 Authentication
-MethodEndpointDescriptionAuth RequiredPOST/api/registerRegister new userNoPOST/api/loginLogin and receive JWT tokenNo
-Register/Login Request Body:
-json{
+Method      Endpoint          Description                   AuthRequired
+POST        /api/register      Register new user                No
+POST        /api/login         Login and receive JWT token      No
+
+{
   "name": "John Doe",
   "email": "john@example.com",
   "password": "password123"
 }
 Tasks
-MethodEndpointDescriptionAuth RequiredGET/api/tasksGet all tasks for logged-in userYesPOST/api/tasksCreate a new taskYesPATCH/api/tasks/{id}/statusUpdate task statusYesDELETE/api/tasks/{id}Delete a taskYes
+Method          Endpoint                  Description                            AuthRequired
+GET              /api/tasks                Get all tasks for logged-in user        Yes
+POST             /api/tasks                Create a new task                       Yes
+PATCH            /api/tasks/{id}/status    Update task status                       Yes
+DELETE           /api/tasks/{id}            Delete a task                           Yes
+
 Create Task Request Body:
-json{
+{
   "title": "Complete assessment",
   "description": "Finish the technical assessment",
   "status": "PENDING"
 }
 Update Status Request Body:
-json{
+{
+  "status": "IN_PROGRESS"
+}
+```
+
+---
+{
   "status": "IN_PROGRESS"
 }
 ```
@@ -126,6 +138,8 @@ task-management-app/
 │   │   └── index.js
 │   └── package.json
 └── README.md
+```
+
 
 🧪 Testing
 Manual Testing Steps:
