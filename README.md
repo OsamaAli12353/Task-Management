@@ -1,73 +1,51 @@
-# Task Management App
+Task Management App
 
-A simple task management application with Spring Boot backend and React frontend. Users can register, login, create tasks, update status, and delete tasks.  
+A simple task management app with Spring Boot backend and React frontend. Users can register, login, create tasks, update status, and delete tasks.
 
----
+Setup Instructions:
+Backend: cd backend → ./mvnw spring-boot:run (runs on http://localhost:8080
+)
+Frontend: cd frontend → npm install → npm start (runs on http://localhost:3000
+)
 
-## Setup Instructions
+How to Run:
 
-### Backend
-1. Navigate to the backend folder:
-   ```bash
-   cd backend
-Run the application:
+Start backend server.
 
-bash
-Copy code
-./mvnw spring-boot:run
-The backend will run on http://localhost:8080.
+Start frontend server.
 
-Frontend
-Navigate to the frontend folder:
+Open http://localhost:3000
+ in your browser.
 
-bash
-Copy code
-cd frontend
-Install dependencies:
+API Endpoints:
 
-bash
-Copy code
-npm install
-Start the frontend:
+POST /api/register → Register a new user
 
-bash
-Copy code
-npm start
-The frontend will run on http://localhost:3000.
+POST /api/login → Login and get JWT token
 
-How to Run the Project
-Start the backend server first.
+GET /api/tasks → Get all tasks for logged-in user
 
-Start the frontend server.
+POST /api/tasks → Add a new task
 
-Open your browser at http://localhost:3000 and interact with the app.
+PATCH /api/tasks/{id}/status → Update task status
 
-API Endpoints
-Method	Endpoint	Description
-POST	/api/register	Register a new user
-POST	/api/login	Login and retrieve JWT token
-GET	/api/tasks	Get all tasks for logged-in user
-POST	/api/tasks	Add a new task
-PATCH	/api/tasks/{id}/status	Update task status
-DELETE	/api/tasks/{id}	Delete a task
+DELETE /api/tasks/{id} → Delete a task
 
-Assumptions
-JWT token is required for all /api/tasks/** endpoints.
+Assumptions:
 
-Default task status is PENDING when created.
+JWT token required for all /api/tasks/** endpoints.
 
-CORS is enabled for http://localhost:3000.
+Default task status is PENDING.
 
-Frontend stores JWT in localStorage and uses it for authenticated requests.
+CORS enabled for http://localhost:3000
+.
 
-Notes
+Frontend stores JWT in localStorage for authenticated requests.
+
+Notes:
+
 Task statuses: PENDING, IN_PROGRESS, DONE.
 
-Frontend uses React and Axios for API requests.
+Frontend uses React and Axios.
 
-Backend uses Spring Boot, Spring Security, and JWT for authentication.
-
-vbnet
-Copy code
-
-I can also **add screenshots and a simple project structure diagram** if you want your README to look professional
+Backend uses Spring Boot, Spring Security, JWT.
