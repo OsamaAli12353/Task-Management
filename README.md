@@ -1,3 +1,6 @@
+Task Management Application
+A full-stack task management application built with Spring Boot and React.
+📋 Overview
 This application allows users to:
 
 Register and login with secure authentication
@@ -22,81 +25,144 @@ React Router for navigation
 CSS for styling
 
 
-🚀 Setup Instructions
+🚀 How to Run the Project
 Prerequisites
+Before running the application, ensure you have the following installed:
 
-Java 17+
-Node.js 16+
-Maven
+Java 17 or higher - Download Java
+Node.js 16 or higher - Download Node.js
+Maven - Download Maven (or use the included Maven wrapper)
+Git - Download Git
 
-Backend Setup
-cd backend
-./mvnw clean install
-./mvnw spring-boot:run
-The backend server will start on http://localhost:8080
-Frontend Setup
-cd frontend
-npm install
-npm startThe frontend application will start on http://localhost:3000
+Step 1: Clone the Repository
+bashgit clone <repository-url>
+cd task-management-app
+Step 2: Backend Setup
 
-## 📡 API Endpoints
+Navigate to the backend directory:
 
-### Authentication
+bash   cd backend
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/register` | Register new user | No |
-| POST | `/api/login` | Login and receive JWT token | No |
+Build the project:
 
-**Register/Login Request Body:**
-```json
-{
+bash   ./mvnw clean install
+On Windows, use:
+bash   mvnw.cmd clean install
+
+Run the Spring Boot application:
+
+bash   ./mvnw spring-boot:run
+On Windows, use:
+bash   mvnw.cmd spring-boot:run
+
+Verify the backend is running:
+
+The server should start on http://localhost:8080
+You should see console output indicating "Started TaskManagementApplication"
+
+
+
+Step 3: Frontend Setup
+
+Open a new terminal window/tab (keep the backend running)
+Navigate to the frontend directory:
+
+bash   cd frontend
+
+Install dependencies:
+
+bash   npm install
+
+Start the React development server:
+
+bash   npm start
+
+Access the application:
+
+The browser should automatically open to http://localhost:3000
+If not, manually navigate to http://localhost:3000
+
+
+
+Step 4: Using the Application
+
+Register a new account:
+
+Click on "Register" or navigate to the registration page
+Fill in your name, email, and password
+Submit the form
+
+
+Login:
+
+Use your registered email and password to login
+You'll receive a JWT token (stored automatically)
+
+
+Manage tasks:
+
+Create new tasks with title and description
+Update task status (Pending → In Progress → Done)
+Delete tasks you no longer need
+All tasks are private to your account
+
+
+
+
+🔧 Configuration
+Backend Configuration
+The backend configuration is in backend/src/main/resources/application.properties:
+properties# Server port
+server.port=8080
+
+# H2 Database (in-memory)
+spring.datasource.url=jdbc:h2:mem:taskdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+# JPA/Hibernate
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+
+# JWT Secret (change in production)
+jwt.secret=your-secret-key-here
+jwt.expiration=86400000
+Frontend Configuration
+API endpoint configuration is in frontend/src/services/api.js:
+javascriptconst API_URL = 'http://localhost:8080/api';
+
+📡 API Endpoints
+Authentication
+MethodEndpointDescriptionAuth RequiredPOST/api/registerRegister new userNoPOST/api/loginLogin and receive JWT tokenNo
+Register/Login Request Body:
+json{
   "name": "John Doe",
   "email": "john@example.com",
   "password": "password123"
 }
-```
-
-**Login Response:**
-```json
-{
+Login Response:
+json{
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "type": "Bearer",
   "email": "john@example.com",
   "name": "John Doe"
 }
-```
 
----
-
-### Tasks
-
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/tasks` | Get all tasks for logged-in user | ✅ Yes |
-| POST | `/api/tasks` | Create a new task | ✅ Yes |
-| PATCH | `/api/tasks/{id}/status` | Update task status | ✅ Yes |
-| DELETE | `/api/tasks/{id}` | Delete a task | ✅ Yes |
-
-**Create Task Request Body:**
-```json
-{
+Tasks
+MethodEndpointDescriptionAuth RequiredGET/api/tasksGet all tasks for logged-in user✅ YesPOST/api/tasksCreate a new task✅ YesPATCH/api/tasks/{id}/statusUpdate task status✅ YesDELETE/api/tasks/{id}Delete a task✅ Yes
+Create Task Request Body:
+json{
   "title": "Complete assessment",
   "description": "Finish the technical assessment",
   "status": "PENDING"
 }
-```
-
-**Update Status Request Body:**
-```json
-{
+Update Status Request Body:
+json{
   "status": "IN_PROGRESS"
 }
-```
-
-**Get Tasks Response:**
-```json
-[
+Get Tasks Response:
+json[
   {
     "id": 1,
     "title": "Complete assessment",
@@ -112,51 +178,80 @@ npm startThe frontend application will start on http://localhost:3000
     "createdAt": "2025-12-28T11:00:00"
   }
 ]
-```
+Task Status Values:
 
-**Task Status Values:**
-- `PENDING` - Task is created but not started
-- `IN_PROGRESS` - Task is currently being worked on
-- `DONE` - Task is completed
----
+PENDING - Task is created but not started
+IN_PROGRESS - Task is currently being worked on
+DONE - Task is completed
 
-## 🔐 Authentication
 
-- JWT (JSON Web Token) based authentication
-- Token must be included in the `Authorization` header for protected routes
-- Format: `Authorization: Bearer <token>`
-- Frontend automatically stores and sends JWT token from localStorage
+🔐 Authentication
 
----
+JWT (JSON Web Token) based authentication
+Token must be included in the Authorization header for protected routes
+Format: Authorization: Bearer <token>
+Frontend automatically stores and sends JWT token from localStorage
 
-## ✅ Features Implemented
 
-- ✅ User registration with password hashing
-- ✅ User login with JWT token generation
-- ✅ Create, read, update, delete tasks
-- ✅ Task status management (PENDING, IN_PROGRESS, DONE)
-- ✅ User-specific tasks (users can only access their own tasks)
-- ✅ Protected API endpoints
-- ✅ Responsive frontend interface
-- ✅ Loading and error state handling
-- ✅ Form validation
+🐛 Troubleshooting
+Backend Issues
+Port 8080 already in use:
+bash# Find and kill the process using port 8080
+# Linux/Mac:
+lsof -ti:8080 | xargs kill -9
+# Windows:
+netstat -ano | findstr :8080
+taskkill /PID <PID> /F
+Maven build fails:
 
----
+Ensure Java 17+ is installed: java -version
+Clear Maven cache: ./mvnw clean
+Check internet connection (Maven downloads dependencies)
 
-## 📝 Assumptions
+Frontend Issues
+Port 3000 already in use:
 
-1. **Database:** Using H2 in-memory database for simplicity (can be switched to MySQL/PostgreSQL)
-2. **JWT Expiration:** Tokens expire after 24 hours
-3. **Default Status:** New tasks default to `PENDING` status
-4. **CORS:** Enabled for `http://localhost:3000` during development
-5. **Password Security:** Passwords are hashed using BCrypt
-6. **Task Privacy:** Users can only view/modify their own tasks
-7. **Status Values:** Only three valid statuses: `PENDING`, `IN_PROGRESS`, `DONE`
+The app will prompt to use a different port (usually 3001)
+Or kill the process: lsof -ti:3000 | xargs kill -9 (Mac/Linux)
 
----
+npm install fails:
 
-## 📂 Project Structure
-```
+Clear npm cache: npm cache clean --force
+Delete node_modules and package-lock.json, then run npm install again
+Ensure Node.js 16+ is installed: node -version
+
+Cannot connect to backend:
+
+Verify backend is running on http://localhost:8080
+Check CORS configuration in backend
+Clear browser cache and localStorage
+
+
+✅ Features Implemented
+
+✅ User registration with password hashing
+✅ User login with JWT token generation
+✅ Create, read, update, delete tasks
+✅ Task status management (PENDING, IN_PROGRESS, DONE)
+✅ User-specific tasks (users can only access their own tasks)
+✅ Protected API endpoints
+✅ Responsive frontend interface
+✅ Loading and error state handling
+✅ Form validation
+
+
+📝 Assumptions
+
+Database: Using H2 in-memory database for simplicity (can be switched to MySQL/PostgreSQL)
+JWT Expiration: Tokens expire after 24 hours
+Default Status: New tasks default to PENDING status
+CORS: Enabled for http://localhost:3000 during development
+Password Security: Passwords are hashed using BCrypt
+Task Privacy: Users can only view/modify their own tasks
+Status Values: Only three valid statuses: PENDING, IN_PROGRESS, DONE
+
+
+📂 Project Structure
 task-management-app/
 ├── backend/
 │   ├── src/
@@ -181,8 +276,6 @@ task-management-app/
 │   │   └── index.js
 │   └── package.json
 └── README.md
-```
-
 
 🧪 Testing
 Manual Testing Steps:
@@ -215,3 +308,12 @@ Deploy to cloud platform
 Add automated tests
 Implement task sharing between users
 Add email notifications
+
+
+📞 Support
+If you encounter any issues:
+
+Check the troubleshooting section above
+Verify all prerequisites are installed correctly
+Ensure both servers are running simultaneously
+Check browser console and backend logs for errors
